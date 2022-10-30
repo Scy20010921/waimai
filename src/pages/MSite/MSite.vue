@@ -109,7 +109,7 @@ export default {
   watch: {
     //监视
     categorys(value) {    //数组中有数据    在异步更新界面之前执行
-      //使用setTimeou可以实现效果,但不是最好的
+      //使用setTimeou可以实现效果,但不是最好的 setInterval与setTimeout的区别 setTimeout()只执行函数一次 setInterval()会不停的调用函数
       // setTimeout(() => {  //等待100后执行 在异步更新界面之后执行
       //   new Swiper('.swiper', {
       //     loop: true, //可以循环播放

@@ -15,7 +15,7 @@ export default {
   mounted() {
     // this.$store.dispatch('getAddress')
     this.getFoodCategorys()
-    console.log("12");
+
   },
   methods: {
     ...mapActions(['getFoodCategorys'])
