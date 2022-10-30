@@ -14,28 +14,27 @@ export const reqShops = (longitude, latitude) => ajax(BASE_URL + '/shops', { lon
 
 // 4、根据经纬度和关键字搜索商铺列表](#4根据经纬度和关键字搜索商铺列表)
 
-export const reqAddress3 = () => ajax()
+export const reqSearchShop = ({ geohash, keyword }) =>
+  ajax(BASE_URL + '/index_category', { geohash, keyword })
 
 // 5、获取一次性验证码](#5获取一次性验证码)
 
-export const reqAddress4 = () => ajax()
-
 // 6、用户名密码登陆](#6用户名密码登陆)
-
-export const reqAddress5 = () => ajax()
-
+export const reqPwdLogin = ({ name, pwd, captcha }) =>
+  ajax(BASE_URL + '/login_pwd', { name, pwd, captcha }, 'POST')
 // 7、发送短信验证码](#7发送短信验证码)
 
-export const reqAddress6 = () => ajax()
+export const reqSendCode = ({ phone }) => ajax(BASE_URL + '/sendcode', { phone })
 
 // 8、手机号验证码登陆](#8手机号验证码登陆)
 
-export const reqAddress7 = () => ajax()
+export const reqASmsLogin = ({ phone, code }) =>
+  ajax(BASE_URL + '/login_sms', { phone, code }, 'POST')
 
 // 9、根据会话获取用户信息](#9根据会话获取用户信息)
 
-export const reqAddress8 = () => ajax()
+export const reqUserInfo = () => ajax(BASE_URL + '/userinfo')
 
 // 10、用户登出](#10用户登出)
 
-export const reqAddress9 = () => ajax()
+export const reqLogout = () => ajax(BASE_URL + '/logout')
