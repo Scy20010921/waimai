@@ -116,10 +116,11 @@ export default {
 
         //发送ajax请求短信登录
         result = await reqSendCode(phone, code)
-        result.data = { phone: '15607488691' }
+        result.data = { phone: '15607488691', _id: '15607488691' }
         if (this.phone == '15607488691') {
           if (this.code == '123456') {
             result.code = 0
+            console.log(result.data)
 
           } else {
             result.code = 1,

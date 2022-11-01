@@ -3,11 +3,15 @@
     <section class="msite">
       <!--首页头部-->
       <HeaderTop title="昌平区北七家宏福大武当撒">
-        <span class="header_search" slot="left">
+        <router-link to="/search" class="header_search" slot="left">
           <i class="iconfont icon-sousuo"></i>
-        </span>
+        </router-link>
         <span class="header_login" slot="right">
-          <router-link to="/login"><span class="header_login_text">登录|注册</span></router-link>
+          <router-link :to="userInfo._id?'/userinfo':'/login'">
+            <span class="header_login_text" v-if="!userInfo._id">登录|注册</span>
+            <span class="header_login_text" v-else><i class="iconfont icon-person"></i></span>
+
+          </router-link>
 
         </span>
       </HeaderTop>
@@ -66,8 +70,8 @@ export default {
     }
   },
   mounted() { //创建到消灭中间经过的过程 发起请求
-    this.$store.dispatch('getFoodCategorys')
-    this.$store.dispatch('getShops')
+
+    // this.$store.dispatch('getShops')
     //创建一个Swiper实例对象,来实现轮播图
 
 
@@ -75,7 +79,7 @@ export default {
 
   //计算属性
   computed: {
-    ...mapState(['address', 'categorys']),
+    ...mapState(['address', 'categorys', 'userInfo']),
     // 根据categorys一维数组生成一个二维数组
     // 小数组中的元素个数最大的是8
     categorysArr() {

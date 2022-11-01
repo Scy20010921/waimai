@@ -4,11 +4,13 @@ import {
   RECEIVE_CATEGORYS,
   RECEIVE_SHOPS,
   RECEIVE_USER_INFO,
+  RECEI_USER_INFO,
 } from './mutations-types'
-import { reqAddress, reqFoodCategorys, reqShops } from '../api'
+//导入api里面的数据
+import { reqAddress, reqFoodCategorys, reqShops, reqUserInfo, reqLogout } from '../api'
 
 export default {
-  //异步获取地址
+  //异步获取地址 方法
   async getAddress({ commit, state }) {
     // 发送异步ajax请求
     const geohash = state.latitude + ',' + state.longitude
@@ -22,7 +24,6 @@ export default {
   //异步获取食品分类列表
   async getFoodCategorys({ commit }) {
     // 发送异步ajax请求
-
     const result = await reqFoodCategorys()
     // 提交一个mutation
     if (result.code === 0) {
@@ -33,8 +34,8 @@ export default {
   //异步获取商家列表
   async getShops({ commit, state }) {
     // 发送异步ajax请求
-    const { longitude, latitude } = state
 
+    const { longitude, latitude } = state
     const result = await reqShops(longitude, latitude)
     // 提交一个mutation
     if (result.code === 0) {
@@ -45,5 +46,22 @@ export default {
   //同步记录用户信息
   recordUser({ commit }, userInfo) {
     commit(RECEIVE_USER_INFO, { userInfo })
+  },
+  //异步获取用户信息
+  async getUserInfo({ commit }) {
+    const result = await reqUserInfo()
+    if (result.code === 0) {
+      const userInfo = result.data
+      commit(RECEIVE_USER_INFO, {
+        userInfo,
+      })
+    }
+  },
+  //异步登出
+  async logout({ commit }) {
+    const result = await reqLogout()
+    if (result.code === 0) {
+      commit(RECEI_USER_INFO)
+    }
   },
 }

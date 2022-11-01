@@ -15,10 +15,11 @@ export default {
   mounted() {
     // this.$store.dispatch('getAddress')
     this.getFoodCategorys()
-
+    this.getUserInfo()
+    this.getShops()
   },
   methods: {
-    ...mapActions(['getFoodCategorys'])
+    ...mapActions(['getFoodCategorys', 'getUserInfo', 'getShops'])
   },
   components: {
     FooterGuide
