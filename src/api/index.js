@@ -38,3 +38,12 @@ export const reqUserInfo = () => ajax(BASE_URL + '/userinfo')
 // 10、用户登出](#10用户登出)
 
 export const reqLogout = () => ajax(BASE_URL + '/logout')
+
+// 11.获取商家信息
+export const reqShopInfo = () => ajax('/info')
+
+// 12.获取商家评论数组
+export const reqShopRatings = () => ajax('/ratings')
+
+// 13.获取商家商品数组
+export const reqShopGoods = () => ajax('/goods')

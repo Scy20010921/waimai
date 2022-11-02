@@ -5,9 +5,21 @@ import {
   RECEIVE_SHOPS,
   RECEIVE_USER_INFO,
   RECEI_USER_INFO,
+  RECEIVE_Goods,
+  RECEIVE_Ratings,
+  RECEIVE_Info,
 } from './mutations-types'
 //导入api里面的数据
-import { reqAddress, reqFoodCategorys, reqShops, reqUserInfo, reqLogout } from '../api'
+import {
+  reqAddress,
+  reqFoodCategorys,
+  reqShops,
+  reqUserInfo,
+  reqLogout,
+  reqShopInfo,
+  reqShopRatings,
+  reqShopGoods,
+} from '../api'
 
 export default {
   //异步获取地址 方法
@@ -62,6 +74,36 @@ export default {
     const result = await reqLogout()
     if (result.code === 0) {
       commit(RECEI_USER_INFO)
+    }
+  },
+  //异步获取商家商品数组
+  async getShopGoods({ commit }) {
+    // 发送异步ajax请求
+    const result = await reqShopGoods()
+    // 提交一个mutation
+    if (result.code === 0) {
+      const goods = result.data
+      commit(RECEIVE_Goods, { goods })
+    }
+  },
+  //异步获取商家商品数组
+  async getShopRatings({ commit }) {
+    // 发送异步ajax请求
+    const result = await reqShopRatings()
+    // 提交一个mutation
+    if (result.code === 0) {
+      const ratings = result.data
+      commit(RECEIVE_Ratings, { ratings })
+    }
+  },
+  //异步获取商家商品数组
+  async getShopInfo({ commit }) {
+    // 发送异步ajax请求
+    const result = await reqShopInfo()
+    // 提交一个mutations
+    if (result.code === 0) {
+      const info = result.data
+      commit(RECEIVE_Info, { info })
     }
   },
 }

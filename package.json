@@ -12,6 +12,8 @@
     "core-js": "^3.8.3",
     "default-passive-events": "^2.0.0",
     "mint-ui": "^2.2.13",
+    "mock.js": "^0.2.0",
+    "mockjs": "^1.1.0",
     "save": "^2.9.0",
     "swiper": "^8.4.4",
     "vue": "^2.6.14",

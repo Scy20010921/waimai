@@ -17,6 +17,7 @@ export default {
     this.getFoodCategorys()
     this.getUserInfo()
     this.getShops()
+
   },
   methods: {
     ...mapActions(['getFoodCategorys', 'getUserInfo', 'getShops'])
