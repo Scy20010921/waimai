@@ -77,13 +77,14 @@ export default {
     }
   },
   //异步获取商家商品数组
-  async getShopGoods({ commit }) {
+  async getShopGoods({ commit }, callback) {
     // 发送异步ajax请求
     const result = await reqShopGoods()
     // 提交一个mutation
     if (result.code === 0) {
       const goods = result.data
       commit(RECEIVE_Goods, { goods })
+      callback && callback()
     }
   },
   //异步获取商家商品数组

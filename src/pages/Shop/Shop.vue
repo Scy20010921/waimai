@@ -21,15 +21,18 @@
 <script>
 
 import ShopHeader from '../../components/ShopHeader/ShopHeader.vue'
+
 export default {
   name: 'Shop',
   mounted() {
     //只能导入一个
-    // this.$store.dispatch('getShopRatings')
+    this.$store.dispatch('getShopInfo')
+
   },
   components: {
     ShopHeader
-  }
+  },
+
 }
 </script>
 
