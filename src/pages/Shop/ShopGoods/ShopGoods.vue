@@ -4,7 +4,7 @@
       <div class="menu-wrapper">
         <ul>
           <!-- current -->
-          <li class="menu-item " v-for="(good,index) in goods" :key="index" :class="{current:index===currentIndex}">
+          <li class="menu-item " v-for="(good,index) in goods" :key="index" :class="{current:index===currentIndex}" @click="clickMenuItem(index)">
             <span class="text bottom-border-1px">
               <img class="icon" :src="good.icon" v-if="good.icon">
               {{good.name}}
@@ -18,7 +18,7 @@
           <li class="food-list-hook" v-for="(good,index) in goods" :key="index">
             <h1 class="title">{{good.name}}</h1>
             <ul>
-              <li class="food-item bottom-border-1px" v-for="(food,index) in good.foods" :key="index">
+              <li class="food-item bottom-border-1px" v-for="(food,index) in good.foods" :key="index" @click="showFood(food)">
                 <div class="icon">
                   <img width="57" height="57" :src="food.icon">
                 </div>
@@ -31,10 +31,10 @@
                   </div>
                   <div class="price">
                     <span class="now">￥{{food.price}}</span>
-                    <span class="old" v-if="food.oldPrice">{{food.oldPrice}}</span>
+                    <span class="old" v-show="food.oldPrice">￥{{food.oldPrice}}</span>
                   </div>
                   <div class="cartcontrol-wrapper">
-                    CartControl
+                    <CartControl :food="food"></CartControl>
                   </div>
                 </div>
               </li>
@@ -42,7 +42,10 @@
           </li>
         </ul>
       </div>
+      <ShopCart></ShopCart>
     </div>
+    <Food :food="food" ref="food"></Food>
+
   </div>
 
 </template>
@@ -51,13 +54,23 @@
 <script>
 import BScroll from '@better-scroll/core'
 import { mapState } from 'vuex'
+import CartControl from '../../../components/CartControl/CartControl.vue'
+import ShopCart from '../../../components/ShopCart/ShopCart.vue'
+import Food from '../../../components/Food/Food.vue'
 export default {
+
   name: 'ShopGoods',
   data() {
     return {
+      //y的位置
       scrollY: 0,
-      tops: []
+      //每个li的下标
+      tops: [],
+      food: {} //需要显示的food
     }
+  },
+  components: {
+    CartControl, Food, ShopCart
   },
   mounted() {
     this.$store.dispatch('getShopGoods', () => {  //数据更新后执行
@@ -68,7 +81,7 @@ export default {
   computed: {
     ...mapState(['goods']),
     //计算得到当前分类的下标
-    currentIndex() {
+    currentIndex() {    //初始和相关数据发送了变化
       //先得到相关的条件数据
       const { scrollY, tops } = this
       //根据条件计算产生一个结果
@@ -85,16 +98,22 @@ export default {
     _initScroll() {
       this.$nextTick(() => {    //列表数据更新显示后执行
         new BScroll('.menu-wrapper', {
-
+          click: true
         })
-        const foodsScroll = new BScroll('.foods-wrapper', {
-          probeType: 2   //因为惯性的滑动是不会触发
+        this.foodsScroll = new BScroll('.foods-wrapper', {
+          probeType: 2,   //因为惯性的滑动是不会触发
+          click: true
         })
         //给右侧列表绑定scroll监听
-        foodsScroll.on('scroll', ({ x, y }) => {
+        this.foodsScroll.on('scroll', ({ x, y }) => {
+          console.log('scroll', x, y)
           this.scrollY = Math.abs(y)    //返回y的绝对值 正数
         })
-
+        ////给右侧列表绑定scroll结束监听
+        this.foodsScroll.on('scrollEnd', ({ x, y }) => {
+          console.log('scrollEnd', x, y)
+          this.scrollY = Math.abs(y)    //返回y的绝对值 正数
+        })
       })
     },
     //初始化tops
@@ -114,6 +133,25 @@ export default {
       //3.更新数据
       this.tops = tops
       console.log(tops)
+    },
+
+    clickMenuItem(index) {
+      console.log(index)
+      //使右侧列表滑动到对应的位置
+      //得到目标位置的scrollY
+      const scrollY = this.tops[index]    //所以li坐标的位置[数组下标]  如果数组下标为0 就是第一个li的坐标位置
+      //立即更新scrollY(更新点击的分类成为当前的分类)
+      this.scrollY = scrollY              //将data里面的scrollY赋值
+      //平滑滚动右侧列表
+      this.foodsScroll.scrollTo(0, -scrollY, 300) //移动y的位置
+    },
+    //显示点击的food
+    showFood(food) {
+      //设置food
+      this.food = food
+      //显示food组件(在父组件中调用子组件对象的方法)
+      this.$refs.food.toggleShow()
+
     }
   }
 }

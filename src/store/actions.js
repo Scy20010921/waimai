@@ -8,6 +8,8 @@ import {
   RECEIVE_Goods,
   RECEIVE_Ratings,
   RECEIVE_Info,
+  INCREMENT_FOOD_COUNT,
+  DECREMENT_FOOD_COUNT,
 } from './mutations-types'
 //导入api里面的数据
 import {
@@ -105,6 +107,14 @@ export default {
     if (result.code === 0) {
       const info = result.data
       commit(RECEIVE_Info, { info })
+    }
+  },
+  //同步更新food中的count值
+  updataFoodCount({ commit }, { isAdd, food }) {
+    if (isAdd) {
+      commit(INCREMENT_FOOD_COUNT, { food })
+    } else {
+      commit(DECREMENT_FOOD_COUNT, { food })
     }
   },
 }
