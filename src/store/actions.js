@@ -10,6 +10,8 @@ import {
   RECEIVE_Info,
   INCREMENT_FOOD_COUNT,
   DECREMENT_FOOD_COUNT,
+  CLEAR_CART,
+  RECEIVE_SEARCH_SHHOPS,
 } from './mutations-types'
 //导入api里面的数据
 import {
@@ -21,6 +23,7 @@ import {
   reqShopInfo,
   reqShopRatings,
   reqShopGoods,
+  reqSearchShop,
 } from '../api'
 
 export default {
@@ -78,7 +81,7 @@ export default {
       commit(RECEI_USER_INFO)
     }
   },
-  //异步获取商家商品数组
+  //异步获取商家商品列表
   async getShopGoods({ commit }, callback) {
     // 发送异步ajax请求
     const result = await reqShopGoods()
@@ -86,27 +89,32 @@ export default {
     if (result.code === 0) {
       const goods = result.data
       commit(RECEIVE_Goods, { goods })
+      //数据更新了,通知一下组件
       callback && callback()
     }
   },
-  //异步获取商家商品数组
-  async getShopRatings({ commit }) {
+  //异步获取商家评论
+  async getShopRatings({ commit }, callback) {
     // 发送异步ajax请求
     const result = await reqShopRatings()
     // 提交一个mutation
     if (result.code === 0) {
       const ratings = result.data
       commit(RECEIVE_Ratings, { ratings })
+      //数据更新了,通知一下组件
+      callback && callback()
     }
   },
   //异步获取商家商品数组
-  async getShopInfo({ commit }) {
+  async getShopInfo({ commit }, callback) {
     // 发送异步ajax请求
     const result = await reqShopInfo()
     // 提交一个mutations
     if (result.code === 0) {
       const info = result.data
       commit(RECEIVE_Info, { info })
+      //数据更新了,通知一下组件
+      callback && callback()
     }
   },
   //同步更新food中的count值
@@ -115,6 +123,22 @@ export default {
       commit(INCREMENT_FOOD_COUNT, { food })
     } else {
       commit(DECREMENT_FOOD_COUNT, { food })
+    }
+  },
+  //同步清空购物车
+  clearCart({ commit }) {
+    commit(CLEAR_CART)
+  },
+  //异步获取搜索得到得商家列表
+  async searchShops({ commit, state }, keyword) {
+    // 发送异步ajax请求
+    const geohash = state.latitude + ',' + state.longitude
+    const result = await reqSearchShop(geohash, keyword)
+    // 提交一个mutation
+    if (result.code === 0) {
+      const searchShops = result.data
+      commit(RECEIVE_SEARCH_SHHOPS, { searchShops })
+      //数据更新了,通知一下组件
     }
   },
 }

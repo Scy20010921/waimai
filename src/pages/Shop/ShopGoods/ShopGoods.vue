@@ -74,8 +74,11 @@ export default {
   },
   mounted() {
     this.$store.dispatch('getShopGoods', () => {  //数据更新后执行
-      this._initScroll()   //回调函数
-      this._initTops()     //回调函数
+      this.$nextTick(() => {
+        this._initTops()     //回调函数
+        this._initScroll()   //回调函数
+      })
+
     })
   },
   computed: {
@@ -92,7 +95,9 @@ export default {
       //返回结果
       return index
     }
+
   },
+
   methods: {
     //初始化滚动条
     _initScroll() {

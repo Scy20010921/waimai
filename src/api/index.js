@@ -12,10 +12,9 @@ export const reqFoodCategorys = () => ajax(BASE_URL + '/index_category')
 
 export const reqShops = (longitude, latitude) => ajax(BASE_URL + '/shops', { longitude, latitude })
 
-// 4、根据经纬度和关键字搜索商铺列表](#4根据经纬度和关键字搜索商铺列表)
-
-export const reqSearchShop = ({ geohash, keyword }) =>
-  ajax(BASE_URL + '/index_category', { geohash, keyword })
+// 4、根据经纬度和关键字搜索商铺列表
+export const reqSearchShop = (geohash, keyword) =>
+  ajax(BASE_URL + '/search_shops', { geohash, keyword })
 
 // 5、获取一次性验证码](#5获取一次性验证码)
 
