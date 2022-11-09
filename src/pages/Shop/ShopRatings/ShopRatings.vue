@@ -66,7 +66,7 @@
                 </span>
 
               </div>
-              <div class="time">{{rating.rateTime}}</div>
+              <div class="time">{{rating.rateTime|date}}</div>
             </div>
           </li>
 
